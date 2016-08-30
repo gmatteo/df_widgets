@@ -1,5 +1,48 @@
 # coding: utf-8
-"""Widgets for Pandas Dataframes based on seaborn API."""
+"""
+Widgets for Pandas Dataframes based on seaborn API.
+
+API reference
+
+Distribution plots
+jointplot(x, y[, data, kind, stat_func, ...])	Draw a plot of two variables with bivariate and univariate graphs.
+pairplot(data[, hue, hue_order, palette, ...])	Plot pairwise relationships in a dataset.
+distplot(a[, bins, hist, kde, rug, fit, ...])	Flexibly plot a univariate distribution of observations.
+kdeplot(data[, data2, shade, vertical, ...])	Fit and plot a univariate or bivariate kernel density estimate.
+rugplot(a[, height, axis, ax])	Plot datapoints in an array as sticks on an axis.
+
+Regression plots
+lmplot(x, y, data[, hue, col, row, palette, ...])	Plot data and regression model fits across a FacetGrid.
+regplot(x, y[, data, x_estimator, x_bins, ...])	Plot data and a linear regression model fit.
+residplot(x, y[, data, lowess, x_partial, ...])	Plot the residuals of a linear regression.
+interactplot(x1, x2, y[, data, filled, ...])	Visualize a continuous two-way interaction with a contour plot.
+coefplot(formula, data[, groupby, ...])	Plot the coefficients from a linear model.
+
+# Categorical plots
+factorplot([x, y, hue, data, row, col, ...])	Draw a categorical plot onto a FacetGrid.
+boxplot([x, y, hue, data, order, hue_order, ...])	Draw a box plot to show distributions with respect to categories.
+violinplot([x, y, hue, data, order, ...])	Draw a combination of boxplot and kernel density estimate.
+stripplot([x, y, hue, data, order, ...])	Draw a scatterplot where one variable is categorical.
+swarmplot([x, y, hue, data, order, ...])	Draw a categorical scatterplot with non-overlapping points.
+pointplot([x, y, hue, data, order, ...])	Show point estimates and confidence intervals using scatter plot glyphs.
+barplot([x, y, hue, data, order, hue_order, ...])	Show point estimates and confidence intervals as rectangular bars.
+countplot([x, y, hue, data, order, ...])	Show the counts of observations in each categorical bin using bars.
+
+Matrix plots
+heatmap(data[, vmin, vmax, cmap, center, ...])	Plot rectangular data as a color-encoded matrix.
+clustermap(data[, pivot_kws, method, ...])	Plot a hierarchically clustered heatmap of a pandas DataFrame
+
+Timeseries plots
+tsplot(data[, time, unit, condition, value, ...])	Plot one or more timeseries with flexible representation of uncertainty.
+
+Miscellaneous plots
+palplot(pal[, size])	Plot the values in a color palette as a horizontal array.
+
+Axis grids
+FacetGrid(data[, row, col, hue, col_wrap, ...])	Subplot grid for plotting conditional relationships.
+PairGrid(data[, hue, hue_order, palette, ...])	Subplot grid for plotting pairwise relationships in a dataset.
+JointGrid(x, y[, data, size, ratio, space, ...])	Grid for drawing a bivariate plot with marginal univariate plots.
+"""
 from __future__ import print_function, division, unicode_literals, absolute_import
 
 import sys
@@ -13,13 +56,34 @@ from IPython.display import display, clear_output
 
 __all__ = [
     "api_selector",
-    "countplot",
-    "swarmplot",
+    # Distribution plots
+    "jointplot",
     "pairplot",
+    #"displot",
+    #"kdeplot",
+    #"rugplot",
+    # Regression plots
     "lmplot",
+    #"regplot",
+    #"residplot",
+    #"interactplot",
+    #"coefplot",
+    # Categorical plots
     "factorplot",
+    "boxplot",
+    "violinplot",
     "stripplot",
     "swarmplot",
+    "pointplot",
+    "barplot",
+    "countplot",
+    # Matrix plots
+    #"heatmap",
+    #"clustermap",
+    # Timeseries plots
+    #"tsplot",
+    # Miscellaneous plots
+    #"palplot",
 ]
 
 
@@ -50,66 +114,11 @@ def api_selector(df, funcname="countplot"):
 
     return display(box)
 
-"""
-Regression plots
-lmplot(x, y, data[, hue, col, row, palette, ...])	Plot data and regression model fits across a FacetGrid.
-regplot(x, y[, data, x_estimator, x_bins, ...])	Plot data and a linear regression model fit.
-residplot(x, y[, data, lowess, x_partial, ...])	Plot the residuals of a linear regression.
-interactplot(x1, x2, y[, data, filled, ...])	Visualize a continuous two-way interaction with a contour plot.
-coefplot(formula, data[, groupby, ...])	Plot the coefficients from a linear model.
-
-Categorical plots
-factorplot([x, y, hue, data, row, col, ...])	Draw a categorical plot onto a FacetGrid.
-boxplot([x, y, hue, data, order, hue_order, ...])	Draw a box plot to show distributions with respect to categories.
-violinplot([x, y, hue, data, order, ...])	Draw a combination of boxplot and kernel density estimate.
-stripplot([x, y, hue, data, order, ...])	Draw a scatterplot where one variable is categorical.
-swarmplot([x, y, hue, data, order, ...])	Draw a categorical scatterplot with non-overlapping points.
-pointplot([x, y, hue, data, order, ...])	Show point estimates and confidence intervals using scatter plot glyphs.
-barplot([x, y, hue, data, order, hue_order, ...])	Show point estimates and confidence intervals as rectangular bars.
-countplot([x, y, hue, data, order, ...])	Show the counts of observations in each categorical bin using bars.
-
-Matrix plots
-heatmap(data[, vmin, vmax, cmap, center, ...])	Plot rectangular data as a color-encoded matrix.
-clustermap(data[, pivot_kws, method, ...])	Plot a hierarchically clustered heatmap of a pandas DataFrame
-
-Timeseries plots
-tsplot(data[, time, unit, condition, value, ...])	Plot one or more timeseries with flexible representation of uncertainty.
-
-Miscellaneous plots
-palplot(pal[, size])	Plot the values in a color palette as a horizontal array.
-
-Axis grids
-FacetGrid(data[, row, col, hue, col_wrap, ...])	Subplot grid for plotting conditional relationships.
-PairGrid(data[, hue, hue_order, palette, ...])	Subplot grid for plotting pairwise relationships in a dataset.
-JointGrid(x, y[, data, size, ratio, space, ...])	Grid for drawing a bivariate plot with marginal univariate plots.
-"""
-
-
-@wraps(sns.countplot)
-def countplot(df, **kwargs):
-
-    def countplot(x, y, hue, color, saturation):
-        x, y, hue, color = ut.widget2py(x, y, hue, color)
-        ax, fig, _ = ut.get_ax_fig_plt()
-        sns.countplot(x=x, y=y, hue=hue, data=df, order=None, hue_order=None, orient=None,
-                      color=color, palette=None, saturation=saturation, ax=ax, **kwargs)
-
-    allcols = ["None"] + list(df.keys())
-    return ipw.interactive(
-                countplot,
-                x=allcols,
-                y=allcols,
-                hue=allcols,
-                color=ut.colors_dropdow(),
-                saturation=ut.saturation_slider(),
-                __manual=True,
-            )
-
 
 @wraps(sns.jointplot)
 def joinplot(df, joint_kws=None, marginal_kws=None, annot_kws=None, **kwargs):
 
-    def joinplot(x, y, kind, color):
+    def sns_joinplot(x, y, kind, color):
         x, y, color = ut.widget2py(x, y, color)
         # TODO: stat_func
         sns.jointplot(x, y, data=df, kind=kind, # stat_func=<function pearsonr>,
@@ -118,7 +127,7 @@ def joinplot(df, joint_kws=None, marginal_kws=None, annot_kws=None, **kwargs):
 
     allcols = ["None"] + list(df.keys())
     return ipw.interactive(
-                joinplot,
+                sns_joinplot,
                 x=allcols,
                 y=allcols,
                 kind=["scatter", "reg", "resid", "kde", "hex"],
@@ -127,36 +136,11 @@ def joinplot(df, joint_kws=None, marginal_kws=None, annot_kws=None, **kwargs):
             )
 
 
-@wraps(sns.swarmplot)
-def swarmplot(df, **kwargs):
-
-    def swarmplot(x, y, hue, split, orient, color, size, linewidth):
-        x, y, hue, orient, color = ut.widget2py(x, y, hue, orient, color)
-        ax, fig, _ = ut.get_ax_fig_plt()
-        sns.swarmplot(x=x, y=y, hue=hue, data=df, order=None, hue_order=None,
-                      split=split, orient=orient, color=color, palette=None, size=size,
-                      edgecolor='gray', linewidth=linewidth, ax=ax, **kwargs)
-
-    allcols = ["None"] + list(df.keys())
-    return ipw.interactive(
-                swarmplot,
-                x=allcols,
-                y=allcols,
-                hue=allcols,
-                split=False,
-                orient=["None", "v", "h"],
-                color=ut.colors_dropdow(),
-                size=ut.size_slider(default=5),
-                linewidth=ut.linewidth_slider(default=0),
-                __manual=True,
-            )
-
-
 @wraps(sns.pairplot)
 def pairplot(df, plot_kws=None, diag_kws=None, grid_kws=None):
     # TODO: Write widget with multiple checkboxes to implement lists.
 
-    def pairplot(x_vars, y_vars, hue, kind, diag_kind):
+    def sns_pairplot(x_vars, y_vars, hue, kind, diag_kind):
         x_vars, y_vars, hue = ut.widget2py(x_vars, y_vars, hue)
         sns.pairplot(df, hue=hue, hue_order=None, palette=None, vars=None, x_vars=x_vars, y_vars=y_vars,
                      kind=kind, diag_kind=diag_kind, markers=None, size=2.5, aspect=1, dropna=True,
@@ -164,7 +148,7 @@ def pairplot(df, plot_kws=None, diag_kws=None, grid_kws=None):
 
     allcols = ["None"] + list(df.keys())
     return ipw.interactive(
-                pairplot,
+                sns_pairplot,
                 x_vars=allcols,
                 y_vars=allcols,
                 hue=allcols,
@@ -177,7 +161,7 @@ def pairplot(df, plot_kws=None, diag_kws=None, grid_kws=None):
 @wraps(sns.lmplot)
 def lmplot(df, scatter_kws=None, line_kws=None):
 
-    def lmplot(x, y, hue, col, row, legend, size):
+    def sns_lmplot(x, y, hue, col, row, legend, size):
         x, y, hue, col, row = ut.widget2py(x, y, hue, col, row)
         sns.lmplot(x, y, df, hue=hue, col=col, row=row, palette=None, col_wrap=None,
                    size=size, aspect=1, markers='o', sharex=True, sharey=True, hue_order=None,
@@ -189,7 +173,7 @@ def lmplot(df, scatter_kws=None, line_kws=None):
 
     allcols = ["None"] + list(df.keys())
     return ipw.interactive(
-                lmplot,
+                sns_lmplot,
                 x=allcols,
                 y=allcols,
                 hue=allcols,
@@ -200,11 +184,10 @@ def lmplot(df, scatter_kws=None, line_kws=None):
                 __manual=True,
             )
 
-
 @wraps(sns.factorplot)
 def factorplot(df, facet_kws=None, **kwargs):
 
-    def factorplot(x, y, hue, color, kind, size, legend):
+    def sns_factorplot(x, y, hue, color, kind, size, legend):
         x, y, hue, color = ut.widget2py(x, y, hue, color)
         sns.factorplot(x=x, y=y, hue=hue, data=df, row=None, col=None, col_wrap=None, # estimator=<function mean>,
                        ci=95, n_boot=1000, units=None, order=None, hue_order=None, row_order=None, col_order=None,
@@ -214,7 +197,7 @@ def factorplot(df, facet_kws=None, **kwargs):
 
     allcols = ["None"] + list(df.keys())
     return ipw.interactive(
-                factorplot,
+                sns_factorplot,
                 x=allcols,
                 y=allcols,
                 hue=allcols,
@@ -225,25 +208,25 @@ def factorplot(df, facet_kws=None, **kwargs):
                 __manual=True,
             )
 
-
 @wraps(sns.boxplot)
 def boxplot(df, **kwargs):
 
-    def boxplot(x, y, hue, orient, color, notch):
+    def sns_boxplot(x, y, hue, orient, color, saturation, notch):
         x, y, hue, orient, color = ut.widget2py(x, y, hue, orient, color)
         ax, fig, _ = ut.get_ax_fig_plt()
         sns.boxplot(x=x, y=y, hue=hue, data=df, order=None, hue_order=None, orient=orient,
-                    color=color, palette=None, saturation=0.75, width=0.8, fliersize=5, linewidth=None,
+                    color=color, palette=None, saturation=saturation, width=0.8, fliersize=5, linewidth=None,
                     whis=1.5, notch=notch, ax=ax, **kwargs)
 
     allcols = ["None"] + list(df.keys())
     return ipw.interactive(
-                boxplot,
+                sns_boxplot,
                 x=allcols,
                 y=allcols,
                 hue=allcols,
                 orient=["None", "v", "h"],
                 color=ut.colors_dropdow(),
+                saturation=ut.saturation_slider(default=0.75),
                 notch=False,
                 __manual=True,
             )
@@ -252,7 +235,7 @@ def boxplot(df, **kwargs):
 @wraps(sns.violinplot)
 def violinplot(df, **kwargs):
 
-    def violinplot(x, y, hue, bw, scale, inner, split, orient, color, saturation):
+    def sns_violinplot(x, y, hue, bw, scale, inner, split, orient, color, saturation):
         x, y, hue, inner, orient, color = ut.widget2py(x, y, hue, inner, orient, color)
         ax, fig, _ = ut.get_ax_fig_plt()
 
@@ -263,7 +246,7 @@ def violinplot(df, **kwargs):
 
     allcols = ["None"] + list(df.keys())
     return ipw.interactive(
-                violinplot,
+                sns_violinplot,
                 x=allcols,
                 y=allcols,
                 hue=allcols,
@@ -273,7 +256,7 @@ def violinplot(df, **kwargs):
                 split=False,
                 orient=["None", "v", "h"],
                 color=ut.colors_dropdow(),
-                saturation=ut.saturation_slider(),
+                saturation=ut.saturation_slider(default=0.75),
                 __manual=True,
             )
 
@@ -281,7 +264,7 @@ def violinplot(df, **kwargs):
 @wraps(sns.stripplot)
 def stripplot(df, **kwargs):
 
-    def stripplot(x, y, hue, split, orient, color, size, linewidth):
+    def sns_stripplot(x, y, hue, split, orient, color, size, linewidth):
         x, y, hue, orient, color = ut.widget2py(x, y, hue, orient, color)
         ax, fig, _ = ut.get_ax_fig_plt()
 
@@ -291,7 +274,7 @@ def stripplot(df, **kwargs):
 
     allcols = ["None"] + list(df.keys())
     return ipw.interactive(
-                stripplot,
+                sns_stripplot,
                 x=allcols,
                 y=allcols,
                 hue=allcols,
@@ -302,22 +285,20 @@ def stripplot(df, **kwargs):
                 linewidth=ut.linewidth_slider(default=0),
                 __manual=True,
             )
-
 
 @wraps(sns.swarmplot)
 def swarmplot(df, **kwargs):
 
-    def swarmplot(x, y, hue, split, orient, color, size, linewidth):
+    def sns_swarmplot(x, y, hue, split, orient, color, size, linewidth):
         x, y, hue, orient, color = ut.widget2py(x, y, hue, orient, color)
         ax, fig, _ = ut.get_ax_fig_plt()
-
         sns.swarmplot(x=x, y=y, hue=hue, data=df, order=None, hue_order=None,
-                     split=split, orient=orient, color=color, palette=None, size=size, edgecolor='gray',
-                     linewidth=linewidth, ax=ax, **kwargs)
+                      split=split, orient=orient, color=color, palette=None, size=size,
+                      edgecolor='gray', linewidth=linewidth, ax=ax, **kwargs)
 
     allcols = ["None"] + list(df.keys())
     return ipw.interactive(
-                swarmplot,
+                sns_swarmplot,
                 x=allcols,
                 y=allcols,
                 hue=allcols,
@@ -329,11 +310,10 @@ def swarmplot(df, **kwargs):
                 __manual=True,
             )
 
-
 @wraps(sns.pointplot)
 def pointplot(df, **kwargs):
 
-    def pointplot(x, y, hue, split, join, orient, color, linewidth):
+    def sns_pointplot(x, y, hue, split, join, orient, color, linewidth):
         x, y, hue, orient, color = ut.widget2py(x, y, hue, orient, color)
         ax, fig, _ = ut.get_ax_fig_plt()
 
@@ -343,7 +323,7 @@ def pointplot(df, **kwargs):
 
     allcols = ["None"] + list(df.keys())
     return ipw.interactive(
-                pointplot,
+                sns_pointplot,
                 x=allcols,
                 y=allcols,
                 hue=allcols,
@@ -352,5 +332,50 @@ def pointplot(df, **kwargs):
                 orient=["None", "v", "h"],
                 color=ut.colors_dropdow(),
                 linewidth=ut.linewidth_slider(default=0),
+                __manual=True,
+            )
+
+
+@wraps(sns.barplot)
+def barplot(df, **kwargs):
+
+    def sns_barplot(x, y, hue, orient, color, saturation):
+        x, y, hue, orient, color = ut.widget2py(x, y, hue, orient, color)
+        ax, fig, _ = ut.get_ax_fig_plt()
+
+        sns.barplot(x=x, y=y, hue=hue, data=df, order=None, hue_order=None, # estimator=<function mean>,
+                    ci=95, n_boot=1000, units=None, orient=orient, color=color, palette=None,
+                    saturation=saturation, errcolor='.26', ax=ax, **kwargs) # errwidth=None, capsize=None, # New args added in ??
+
+    allcols = ["None"] + list(df.keys())
+    return ipw.interactive(
+                sns_barplot,
+                x=allcols,
+                y=allcols,
+                hue=allcols,
+                orient=["None", "v", "h"],
+                color=ut.colors_dropdow(),
+                saturation=ut.saturation_slider(default=0.75),
+                __manual=True,
+            )
+
+
+@wraps(sns.countplot)
+def countplot(df, **kwargs):
+
+    def sns_countplot(x, y, hue, color, saturation):
+        x, y, hue, color = ut.widget2py(x, y, hue, color)
+        ax, fig, _ = ut.get_ax_fig_plt()
+        sns.countplot(x=x, y=y, hue=hue, data=df, order=None, hue_order=None, orient=None,
+                      color=color, palette=None, saturation=saturation, ax=ax, **kwargs)
+
+    allcols = ["None"] + list(df.keys())
+    return ipw.interactive(
+                sns_countplot,
+                x=allcols,
+                y=allcols,
+                hue=allcols,
+                color=ut.colors_dropdow(),
+                saturation=ut.saturation_slider(default=0.75),
                 __manual=True,
             )
