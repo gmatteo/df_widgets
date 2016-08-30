@@ -13,7 +13,7 @@ from functools import wraps
 def countplot(df, **kwargs):
 
     def countplot(x, y, hue, color, saturation):
-        x, y, hue = ut.widget2py(x, y, hue, color)
+        x, y, hue, color = ut.widget2py(x, y, hue, color)
         ax, fig, _ = ut.get_ax_fig_plt()
         sns.countplot(x=x, y=y, hue=hue, data=df, order=None, hue_order=None, orient=None,
                       color=color, palette=None, saturation=saturation, ax=ax, **kwargs)
