@@ -2,11 +2,49 @@
 """Widgets for Pandas Dataframes based on seaborn API."""
 from __future__ import print_function, division, unicode_literals, absolute_import
 
+import sys
 import ipywidgets as ipw
 import seaborn as sns
 import df_widgets.utils as ut
 
 from functools import wraps
+from collections import OrderedDict
+from IPython.display import display, clear_output
+
+__all__ = [
+    "plot_selector",
+    "countplot",
+    "swarmplot",
+    "pairplot",
+]
+
+
+def plot_selector(df, funcname="countplot"):
+    """
+    A widgets with ToogleButtons that allow the user to select and display
+    the widget associated to the different seaborn functions.
+    """
+    this_module = sys.modules[__name__]
+    name2wfunc = OrderedDict()
+    for a in __all__:
+        if a == "plot_selector": continue
+        func = this_module.__dict__.get(a)
+        if not callable(func): continue
+        name2wfunc[func.__name__] = func
+
+    w1 = ipw.ToggleButtons(description='Seaborn Widgets:', options=list(name2wfunc.keys()))
+    w1.value = funcname
+    w2 = name2wfunc[funcname](df)
+    box = ipw.VBox(children=[w1, w2])
+
+    def on_value_change(change):
+        #print(change)
+        box.close()
+        clear_output()
+        plot_selector(df, funcname=change["new"])
+
+    w1.observe(on_value_change, names='value')
+    return display(box)
 
 
 @wraps(sns.countplot)

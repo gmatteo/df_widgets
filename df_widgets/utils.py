@@ -75,7 +75,7 @@ def markers_dropdown(default="o"):
     return widgets.Dropdown(
         options={name: key for key, name in _mpl_markers.items()},
         value=default,
-        description='Marker:',
+        description='marker',
     )
 
 
@@ -96,7 +96,7 @@ def colors_dropdow(default="None"):
     return widgets.Dropdown(
         options=_mpl_colors,
         value=default,
-        description='Color:',
+        description='color',
     )
 
 
@@ -106,7 +106,7 @@ def linewidth_slider(default=1, orientation="horizontal"):
         min=0,
         max=10,
         step=0.5,
-        description='Linewidth:',
+        description='linewidth',
         orientation=orientation,
         readout_format='.1f'
     )
@@ -118,7 +118,7 @@ def size_slider(default=5, orientation="horizontal"):
         min=0,
         max=20,
         step=0.5,
-        description='Size:',
+        description='size',
         orientation=orientation,
         readout_format='.1f'
     )
@@ -129,7 +129,7 @@ def saturation_slider(default=0.75, orientation="horizontal"):
         min=0,
         max=1,
         step=0.05,
-        description='Saturation:',
+        description='saturation',
         orientation=orientation,
         readout_format='.1f'
     )
