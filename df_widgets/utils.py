@@ -2,8 +2,9 @@
 """Widgets for Pandas Dataframes."""
 from __future__ import print_function, division, unicode_literals, absolute_import
 
+import ipywidgets as ipw
+
 from collections import OrderedDict
-from ipywidgets import widgets
 
 
 def add_docstrings(*tuples):
@@ -48,7 +49,14 @@ def add_docstrings(*tuples):
 
 
 def widget2py(*args):
-    return [None if a == "None" else a for a in args]
+    l = [None if a == "None" else a for a in args]
+    return l[0] if len(l) == 1 else l
+
+
+def str2bool_or_none(*args):
+    d = {"None": None, "True": True, "False": False}
+    l = [d[a] for a in args]
+    return l[0] if len(l) == 1 else l
 
 
 def get_ax_fig_plt(ax=None):
@@ -113,7 +121,7 @@ _mpl_markers = OrderedDict([
 
 
 def markers_dropdown(default="o"):
-    return widgets.Dropdown(
+    return ipw.Dropdown(
         options={name: key for key, name in _mpl_markers.items()},
         value=default,
         description='marker',
@@ -134,7 +142,7 @@ _mpl_colors = OrderedDict([
 
 
 def colors_dropdow(default="None"):
-    return widgets.Dropdown(
+    return ipw.Dropdown(
         options=_mpl_colors,
         value=default,
         description='color',
@@ -142,7 +150,7 @@ def colors_dropdow(default="None"):
 
 
 def linewidth_slider(default=1, orientation="horizontal"):
-    return widgets.FloatSlider(
+    return ipw.FloatSlider(
         value=default,
         min=0,
         max=10,
@@ -154,7 +162,7 @@ def linewidth_slider(default=1, orientation="horizontal"):
 
 
 def size_slider(default=5, orientation="horizontal"):
-    return widgets.FloatSlider(
+    return ipw.FloatSlider(
         value=default,
         min=0,
         max=20,
@@ -165,7 +173,7 @@ def size_slider(default=5, orientation="horizontal"):
     )
 
 def saturation_slider(default=0.75, orientation="horizontal"):
-    return widgets.FloatSlider(
+    return ipw.FloatSlider(
         value=default,
         min=0,
         max=1,
@@ -174,3 +182,55 @@ def saturation_slider(default=0.75, orientation="horizontal"):
         orientation=orientation,
         readout_format='.1f'
     )
+
+# Have colormaps separated into categories:
+# http://matplotlib.org/examples/color/colormaps_reference.html
+
+_mpl_categ_cmaps = OrderedDict([
+        #('Perceptually Uniform Sequential',
+    ('Uniform',        ['viridis', 'inferno', 'plasma', 'magma']),
+    ('Sequential',     ['Blues', 'BuGn', 'BuPu',
+                        'GnBu', 'Greens', 'Greys', 'Oranges', 'OrRd',
+                        'PuBu', 'PuBuGn', 'PuRd', 'Purples', 'RdPu',
+                        'Reds', 'YlGn', 'YlGnBu', 'YlOrBr', 'YlOrRd']),
+    ('Sequential(2)',  ['afmhot', 'autumn', 'bone', 'cool',
+                        'copper', 'gist_heat', 'gray', 'hot',
+                        'pink', 'spring', 'summer', 'winter']),
+    ('Diverging',      ['BrBG', 'bwr', 'coolwarm', 'PiYG', 'PRGn', 'PuOr',
+                        'RdBu', 'RdGy', 'RdYlBu', 'RdYlGn', 'Spectral',
+                        'seismic']),
+    ('Qualitative',    ['Accent', 'Dark2', 'Paired', 'Pastel1',
+                        'Pastel2', 'Set1', 'Set2', 'Set3']),
+    ('Miscellaneous',  ['gist_earth', 'terrain', 'ocean', 'gist_stern',
+                        'brg', 'CMRmap', 'cubehelix',
+                        'gnuplot', 'gnuplot2', 'gist_ncar',
+                        'nipy_spectral', 'jet', 'rainbow',
+                        'gist_rainbow', 'hsv', 'flag', 'prism'])
+])
+
+# flat list.
+_mpl_cmaps = [cm for sublist in _mpl_categ_cmaps.values() for cm in sublist]
+
+def colormap_widget(default=None):
+    options = _mpl_cmaps
+    value = options[0]
+    if default is not None:
+        value = default
+        if default not in _mpl_cmaps: options[:].insert(0, value)
+    return ipw.Dropdown(options=options, value=value, description='colormap')
+
+
+#def colormap_widget():
+#    from IPython.display import display, clear_output
+#    w_type = ipw.Dropdown(options=list(_mpl_categ_cmaps.keys()), description='colormap category')
+#    w_cmap = ipw.Dropdown(options=_mpl_categ_cmaps["Uniform"], description='colormap name')
+#
+#    def on_value_change(change):
+#        print(change)
+#        print(w_cmap.value)
+#        w_cmap.options = _mpl_categ_cmaps[w_type.value]
+#        print(w_cmap.value)
+#
+#    w_type.observe(on_value_change, names='value')
+#    box = ipw.HBox(children=[w_type, w_cmap])
+#    return display(box)

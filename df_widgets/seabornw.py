@@ -121,9 +121,9 @@ def joinplot(data, joint_kws=None, marginal_kws=None, annot_kws=None, **kwargs):
     def sns_joinplot(x, y, kind, color):
         x, y, color = ut.widget2py(x, y, color)
         # TODO: stat_func
-        sns.jointplot(x, y, data=data, kind=kind, # stat_func=<function pearsonr>,
-                      color=color, size=6, ratio=5, space=0.2, dropna=True, xlim=None, ylim=None,
-                      joint_kws=joint_kws, marginal_kws=marginal_kws, annot_kws=annot_kws, **kwargs)
+        return sns.jointplot(x, y, data=data, kind=kind, # stat_func=<function pearsonr>,
+                            color=color, size=6, ratio=5, space=0.2, dropna=True, xlim=None, ylim=None,
+                            joint_kws=joint_kws, marginal_kws=marginal_kws, annot_kws=annot_kws, **kwargs)
 
     allcols = ["None"] + list(data.keys())
     return ipw.interactive(
@@ -142,7 +142,7 @@ def pairplot(data, plot_kws=None, diag_kws=None, grid_kws=None):
 
     def sns_pairplot(x_vars, y_vars, hue, kind, diag_kind):
         x_vars, y_vars, hue = ut.widget2py(x_vars, y_vars, hue)
-        sns.pairplot(data, hue=hue, hue_order=None, palette=None, vars=None, x_vars=x_vars, y_vars=y_vars,
+        return sns.pairplot(data, hue=hue, hue_order=None, palette=None, vars=None, x_vars=x_vars, y_vars=y_vars,
                      kind=kind, diag_kind=diag_kind, markers=None, size=2.5, aspect=1, dropna=True,
                      plot_kws=plot_kws, diag_kws=diag_kws, grid_kws=grid_kws)
 
@@ -165,7 +165,7 @@ def distplot(data, fit=None, hist_kws=None, kde_kws=None, rug_kws=None, fit_kws=
     def sns_distplot(hist, kde, rug, color, vertical, norm_hist):
         color = ut.widget2py(color)
         ax, fig, _ = ut.get_ax_fig_plt()
-        sns.distplot(a, bins=None, hist=hist, kde=kde, rug=rug, fit=fit,
+        return sns.distplot(a, bins=None, hist=hist, kde=kde, rug=rug, fit=fit,
                      hist_kws=hist_kws, kde_kws=kde_kws, rug_kws=rug_kws, fit_kws=fit_kws,
                      color=clor, vertical=vertical, norm_hist=norm_hist, axlabel=None, label=None, ax=ax)
 
@@ -189,7 +189,7 @@ def kdeplot(data, **kwargs):
         color = ut.widget2py(color)
         ax, fig, _ = ut.get_ax_fig_plt()
 
-        sns.kdeplot(data, data2=None, shade=False, vertical=False, kernel='gau', bw='scott',
+        return sns.kdeplot(data, data2=None, shade=False, vertical=False, kernel='gau', bw='scott',
                     gridsize=100, cut=3, clip=None, legend=True, cumulative=False, shade_lowest=True, ax=ax, **kwargs)
 
     allcols = ["None"] + list(data.keys())
@@ -210,7 +210,7 @@ def lmplot(data, scatter_kws=None, line_kws=None):
     def sns_lmplot(x, y, hue, col, row, legend, size):
         x, y, hue, col, row = ut.widget2py(x, y, hue, col, row)
 
-        sns.lmplot(x, y, data, hue=hue, col=col, row=row, palette=None, col_wrap=None,
+        return sns.lmplot(x, y, data, hue=hue, col=col, row=row, palette=None, col_wrap=None,
                    size=size, aspect=1, markers='o', sharex=True, sharey=True, hue_order=None,
                    col_order=None, row_order=None, legend=legend, legend_out=True,
                    x_estimator=None, x_bins=None, x_ci='ci', scatter=True, fit_reg=True,
@@ -236,7 +236,7 @@ def interactplot(data, contour_kws=None, scatter_kws=None, **kwargs):
 
     def sns_interactplot(x1, x2, y, filled, colorbar, logistic):
         ax, fig, _ = ut.get_ax_fig_plt()
-        sns.interactplot(x1, x2, y, data=data, filled=filled, cmap='RdBu_r', colorbar=colorbar,
+        return sns.interactplot(x1, x2, y, data=data, filled=filled, cmap='RdBu_r', colorbar=colorbar,
                          levels=30, logistic=logistic, contour_kws=contour_kws, scatter_kws=scatter_kws,
                          ax=ax, **kwargs)
 
@@ -262,7 +262,7 @@ def factorplot(data, facet_kws=None, **kwargs):
 
     def sns_factorplot(x, y, hue, color, kind, size, legend):
         x, y, hue, color = ut.widget2py(x, y, hue, color)
-        sns.factorplot(x=x, y=y, hue=hue, data=data, row=None, col=None, col_wrap=None, # estimator=<function mean>,
+        return sns.factorplot(x=x, y=y, hue=hue, data=data, row=None, col=None, col_wrap=None, # estimator=<function mean>,
                        ci=95, n_boot=1000, units=None, order=None, hue_order=None, row_order=None, col_order=None,
                        kind=kind, size=size, aspect=1, orient=None, color=color, palette=None,
                        legend=legend, legend_out=True, sharex=True, sharey=True, margin_titles=False,
@@ -281,15 +281,16 @@ def factorplot(data, facet_kws=None, **kwargs):
                 __manual=True,
             )
 
+
 @wraps(sns.boxplot)
 def boxplot(data, **kwargs):
 
     def sns_boxplot(x, y, hue, orient, color, saturation, notch):
         x, y, hue, orient, color = ut.widget2py(x, y, hue, orient, color)
         ax, fig, _ = ut.get_ax_fig_plt()
-        sns.boxplot(x=x, y=y, hue=hue, data=data, order=None, hue_order=None, orient=orient,
-                    color=color, palette=None, saturation=saturation, width=0.8, fliersize=5, linewidth=None,
-                    whis=1.5, notch=notch, ax=ax, **kwargs)
+        return sns.boxplot(x=x, y=y, hue=hue, data=data, order=None, hue_order=None, orient=orient,
+                          color=color, palette=None, saturation=saturation, width=0.8, fliersize=5, linewidth=None,
+                          whis=1.5, notch=notch, ax=ax, **kwargs)
 
     allcols = ["None"] + list(data.keys())
     return ipw.interactive(
@@ -340,10 +341,9 @@ def stripplot(data, **kwargs):
     def sns_stripplot(x, y, hue, split, orient, color, size, linewidth):
         x, y, hue, orient, color = ut.widget2py(x, y, hue, orient, color)
         ax, fig, _ = ut.get_ax_fig_plt()
-
-        sns.stripplot(x=x, y=y, hue=hue, data=data, order=None, hue_order=None, jitter=False,
-                      split=split, orient=orient, color=color, palette=None, size=size, edgecolor='gray',
-                      linewidth=linewidth, ax=ax, **kwargs)
+        return sns.stripplot(x=x, y=y, hue=hue, data=data, order=None, hue_order=None, jitter=False,
+                            split=split, orient=orient, color=color, palette=None, size=size, edgecolor='gray',
+                            linewidth=linewidth, ax=ax, **kwargs)
 
     allcols = ["None"] + list(data.keys())
     return ipw.interactive(
@@ -359,15 +359,16 @@ def stripplot(data, **kwargs):
                 __manual=True,
             )
 
+
 @wraps(sns.swarmplot)
 def swarmplot(data, **kwargs):
 
     def sns_swarmplot(x, y, hue, split, orient, color, size, linewidth):
         x, y, hue, orient, color = ut.widget2py(x, y, hue, orient, color)
         ax, fig, _ = ut.get_ax_fig_plt()
-        sns.swarmplot(x=x, y=y, hue=hue, data=data, order=None, hue_order=None,
-                      split=split, orient=orient, color=color, palette=None, size=size,
-                      edgecolor='gray', linewidth=linewidth, ax=ax, **kwargs)
+        return sns.swarmplot(x=x, y=y, hue=hue, data=data, order=None, hue_order=None,
+                            split=split, orient=orient, color=color, palette=None, size=size,
+                            edgecolor='gray', linewidth=linewidth, ax=ax, **kwargs)
 
     allcols = ["None"] + list(data.keys())
     return ipw.interactive(
@@ -383,16 +384,16 @@ def swarmplot(data, **kwargs):
                 __manual=True,
             )
 
+
 @wraps(sns.pointplot)
 def pointplot(data, **kwargs):
 
     def sns_pointplot(x, y, hue, split, join, orient, color, linewidth):
         x, y, hue, orient, color = ut.widget2py(x, y, hue, orient, color)
         ax, fig, _ = ut.get_ax_fig_plt()
-
-        sns.pointplot(x=x, y=y, hue=hue, data=data, order=None, hue_order=None, # estimator=<function mean>,
-                      ci=95, n_boot=1000, units=None, markers='o', linestyles='-', dodge=False, join=join, scale=1,
-                      orient=orient, color=color, palette=None, ax=ax, errwidth=None, capsize=None, **kwargs)
+        return sns.pointplot(x=x, y=y, hue=hue, data=data, order=None, hue_order=None, # estimator=<function mean>,
+                            ci=95, n_boot=1000, units=None, markers='o', linestyles='-', dodge=False, join=join, scale=1,
+                            orient=orient, color=color, palette=None, ax=ax, errwidth=None, capsize=None, **kwargs)
 
     allcols = ["None"] + list(data.keys())
     return ipw.interactive(
@@ -415,10 +416,9 @@ def barplot(data, **kwargs):
     def sns_barplot(x, y, hue, orient, color, saturation):
         x, y, hue, orient, color = ut.widget2py(x, y, hue, orient, color)
         ax, fig, _ = ut.get_ax_fig_plt()
-
-        sns.barplot(x=x, y=y, hue=hue, data=data, order=None, hue_order=None, # estimator=<function mean>,
-                    ci=95, n_boot=1000, units=None, orient=orient, color=color, palette=None,
-                    saturation=saturation, errcolor='.26', ax=ax, **kwargs) # errwidth=None, capsize=None, # New args added in ??
+        return sns.barplot(x=x, y=y, hue=hue, data=data, order=None, hue_order=None, # estimator=<function mean>,
+                           ci=95, n_boot=1000, units=None, orient=orient, color=color, palette=None,
+                           saturation=saturation, errcolor='.26', ax=ax, **kwargs) # errwidth=None, capsize=None, # New args added in ??
 
     allcols = ["None"] + list(data.keys())
     return ipw.interactive(
@@ -439,8 +439,8 @@ def countplot(data, **kwargs):
     def sns_countplot(x, y, hue, color, saturation):
         x, y, hue, color = ut.widget2py(x, y, hue, color)
         ax, fig, _ = ut.get_ax_fig_plt()
-        sns.countplot(x=x, y=y, hue=hue, data=data, order=None, hue_order=None, orient=None,
-                      color=color, palette=None, saturation=saturation, ax=ax, **kwargs)
+        return sns.countplot(x=x, y=y, hue=hue, data=data, order=None, hue_order=None, orient=None,
+                             color=color, palette=None, saturation=saturation, ax=ax, **kwargs)
 
     allcols = ["None"] + list(data.keys())
     return ipw.interactive(
@@ -462,9 +462,10 @@ def heatmap(data, annot_kws=None, cbar_kws=None, **kwargs):
 
     def sns_heatmap():
         ax, fig, _ = ut.get_ax_fig_plt()
-        sns.heatmap(data, vmin=None, vmax=None, cmap=None, center=None, robust=False, annot=None,
-                    fmt='.2g', annot_kws=annot_kws, linewidths=0, linecolor='white', cbar=True, cbar_kws=cbar_kws,
-                    cbar_ax=None, square=False, ax=None, xticklabels=True, yticklabels=True, mask=None, **kwargs)
+        return sns.heatmap(data, vmin=None, vmax=None, cmap=None, center=None, robust=False, annot=None,
+                           fmt='.2g', annot_kws=annot_kws, linewidths=0, linecolor='white', cbar=True,
+                           cbar_kws=cbar_kws, cbar_ax=None, square=False, ax=ax,
+                           xticklabels=True, yticklabels=True, mask=None, **kwargs)
 
     return ipw.interactive(
                 sns_heatmap,
@@ -476,9 +477,10 @@ def heatmap(data, annot_kws=None, cbar_kws=None, **kwargs):
 def clustermap(data, pivot_kws=None, cbar_kws=None, **kwargs):
 
     def sns_clustermap():
-        sns.clustermap(data, pivot_kws=pivot_kws, method='average', metric='euclidean', z_score=None,
-                       standard_scale=None, figsize=None, cbar_kws=cbar_kws, row_cluster=True, col_cluster=True,
-                       row_linkage=None, col_linkage=None, row_colors=None, col_colors=None, mask=None, **kwargs)
+        return sns.clustermap(data, pivot_kws=pivot_kws, method='average', metric='euclidean',
+                              z_score=None, standard_scale=None, figsize=None, cbar_kws=cbar_kws,
+                              row_cluster=True, col_cluster=True, row_linkage=None, col_linkage=None,
+                              row_colors=None, col_colors=None, mask=None, **kwargs)
 
     return ipw.interactive(
                 sns_clustermap,
