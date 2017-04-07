@@ -23,10 +23,10 @@ def dfw_plot(data, **kwargs):
                 rot=None, fontsize=None, colormap=colorbar, table=False, yerr=None, xerr=None, secondary_y=False,
                 sort_columns=sort_columns, **kwargs)
                 # There's a typo in the documentation (colorbar/colormap!)
-        plt.show()
+        return plt.gcf()
 
     allcols = ["None"] + list(data.keys())
-    return ipw.interactive(
+    return ipw.interact_manual(
                 plot_dataframe,
                 x=allcols,
                 y=allcols,
@@ -41,5 +41,4 @@ def dfw_plot(data, **kwargs):
                 loglog=False,
                 colorbar=["None", "True", "False"],
                 sort_columns=False,
-                __manual=True,
             )

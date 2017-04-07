@@ -126,13 +126,12 @@ def joinplot(data, joint_kws=None, marginal_kws=None, annot_kws=None, **kwargs):
                             joint_kws=joint_kws, marginal_kws=marginal_kws, annot_kws=annot_kws, **kwargs)
 
     allcols = ["None"] + list(data.keys())
-    return ipw.interactive(
+    return ipw.interact_manual(
                 sns_joinplot,
                 x=allcols,
                 y=allcols,
                 kind=["scatter", "reg", "resid", "kde", "hex"],
                 color=ut.colors_dropdow(),
-                __manual=True,
             )
 
 
@@ -147,14 +146,13 @@ def pairplot(data, plot_kws=None, diag_kws=None, grid_kws=None):
                      plot_kws=plot_kws, diag_kws=diag_kws, grid_kws=grid_kws)
 
     allcols = ["None"] + list(data.keys())
-    return ipw.interactive(
+    return ipw.interact_manul(
                 sns_pairplot,
                 x_vars=allcols,
                 y_vars=allcols,
                 hue=allcols,
                 kind=["scatter", "ref"],
                 diag_kind=["hist", "kde"],
-                __manual=True,
             )
 
 
@@ -170,7 +168,7 @@ def distplot(data, fit=None, hist_kws=None, kde_kws=None, rug_kws=None, fit_kws=
                      color=clor, vertical=vertical, norm_hist=norm_hist, axlabel=None, label=None, ax=ax)
 
     allcols = ["None"] + list(data.keys())
-    return ipw.interactive(
+    return ipw.interact_manual(
                 sns_distplot,
                 hist=True,
                 kde=True,
@@ -178,7 +176,6 @@ def distplot(data, fit=None, hist_kws=None, kde_kws=None, rug_kws=None, fit_kws=
                 color=ut.colors_dropdow(),
                 vertical=False,
                 norm_hist=False,
-                __manual=True,
             )
 
 
@@ -193,10 +190,9 @@ def kdeplot(data, **kwargs):
                     gridsize=100, cut=3, clip=None, legend=True, cumulative=False, shade_lowest=True, ax=ax, **kwargs)
 
     allcols = ["None"] + list(data.keys())
-    return ipw.interactive(
+    return ipw.interact_manual(
                 sns_kdeplot,
                 color=ut.colors_dropdow(),
-                __manual=True,
             )
 """
 
@@ -219,7 +215,7 @@ def lmplot(data, scatter_kws=None, line_kws=None):
                    scatter_kws=scatter_kws, line_kws=line_kws)
 
     allcols = ["None"] + list(data.keys())
-    return ipw.interactive(
+    return ipw.interact_manual(
                 sns_lmplot,
                 x=allcols,
                 y=allcols,
@@ -228,7 +224,6 @@ def lmplot(data, scatter_kws=None, line_kws=None):
                 row=allcols,
                 legend=True,
                 size=ut.size_slider(default=5),
-                __manual=True,
             )
 
 @wraps(sns.interactplot)
@@ -241,7 +236,7 @@ def interactplot(data, contour_kws=None, scatter_kws=None, **kwargs):
                          ax=ax, **kwargs)
 
     allcols = list(data.keys())
-    return ipw.interactive(
+    return ipw.interact_manual(
                 sns_interactplot,
                 x1=allcols,
                 x2=allcols,
@@ -249,7 +244,6 @@ def interactplot(data, contour_kws=None, scatter_kws=None, **kwargs):
                 filled=False,
                 colorbar=True,
                 logistic=False,
-                __manual=True,
             )
 
 
@@ -269,7 +263,7 @@ def factorplot(data, facet_kws=None, **kwargs):
                        facet_kws=facet_kws, **kwargs)
 
     allcols = ["None"] + list(data.keys())
-    return ipw.interactive(
+    return ipw.interact_manual(
                 sns_factorplot,
                 x=allcols,
                 y=allcols,
@@ -278,7 +272,6 @@ def factorplot(data, facet_kws=None, **kwargs):
                 kind=["point", "bar", "count", "box", "violin", "strip"],
                 size=ut.size_slider(default=4),
                 legend=True,
-                __manual=True,
             )
 
 
@@ -293,7 +286,7 @@ def boxplot(data, **kwargs):
                           whis=1.5, notch=notch, ax=ax, **kwargs)
 
     allcols = ["None"] + list(data.keys())
-    return ipw.interactive(
+    return ipw.interact_manual(
                 sns_boxplot,
                 x=allcols,
                 y=allcols,
@@ -302,7 +295,6 @@ def boxplot(data, **kwargs):
                 color=ut.colors_dropdow(),
                 saturation=ut.saturation_slider(default=0.75),
                 notch=False,
-                __manual=True,
             )
 
 
@@ -319,7 +311,7 @@ def violinplot(data, **kwargs):
                        linewidth=None, color=color, palette=None, saturation=saturation, ax=ax, **kwargs)
 
     allcols = ["None"] + list(data.keys())
-    return ipw.interactive(
+    return ipw.interact_manual(
                 sns_violinplot,
                 x=allcols,
                 y=allcols,
@@ -331,7 +323,6 @@ def violinplot(data, **kwargs):
                 orient=["None", "v", "h"],
                 color=ut.colors_dropdow(),
                 saturation=ut.saturation_slider(default=0.75),
-                __manual=True,
             )
 
 
@@ -346,7 +337,7 @@ def stripplot(data, **kwargs):
                             linewidth=linewidth, ax=ax, **kwargs)
 
     allcols = ["None"] + list(data.keys())
-    return ipw.interactive(
+    return ipw.interact_manual(
                 sns_stripplot,
                 x=allcols,
                 y=allcols,
@@ -356,7 +347,6 @@ def stripplot(data, **kwargs):
                 color=ut.colors_dropdow(),
                 size=ut.size_slider(default=5),
                 linewidth=ut.linewidth_slider(default=0),
-                __manual=True,
             )
 
 
@@ -371,7 +361,7 @@ def swarmplot(data, **kwargs):
                             edgecolor='gray', linewidth=linewidth, ax=ax, **kwargs)
 
     allcols = ["None"] + list(data.keys())
-    return ipw.interactive(
+    return ipw.interact_manual(
                 sns_swarmplot,
                 x=allcols,
                 y=allcols,
@@ -381,7 +371,6 @@ def swarmplot(data, **kwargs):
                 color=ut.colors_dropdow(),
                 size=ut.size_slider(default=5),
                 linewidth=ut.linewidth_slider(default=0),
-                __manual=True,
             )
 
 
@@ -396,7 +385,7 @@ def pointplot(data, **kwargs):
                             orient=orient, color=color, palette=None, ax=ax, errwidth=None, capsize=None, **kwargs)
 
     allcols = ["None"] + list(data.keys())
-    return ipw.interactive(
+    return ipw.interact_manual(
                 sns_pointplot,
                 x=allcols,
                 y=allcols,
@@ -406,7 +395,6 @@ def pointplot(data, **kwargs):
                 orient=["None", "v", "h"],
                 color=ut.colors_dropdow(),
                 linewidth=ut.linewidth_slider(default=0),
-                __manual=True,
             )
 
 
@@ -421,7 +409,7 @@ def barplot(data, **kwargs):
                            saturation=saturation, errcolor='.26', ax=ax, **kwargs) # errwidth=None, capsize=None, # New args added in ??
 
     allcols = ["None"] + list(data.keys())
-    return ipw.interactive(
+    return ipw.interact_manual(
                 sns_barplot,
                 x=allcols,
                 y=allcols,
@@ -429,7 +417,6 @@ def barplot(data, **kwargs):
                 orient=["None", "v", "h"],
                 color=ut.colors_dropdow(),
                 saturation=ut.saturation_slider(default=0.75),
-                __manual=True,
             )
 
 
@@ -443,14 +430,13 @@ def countplot(data, **kwargs):
                              color=color, palette=None, saturation=saturation, ax=ax, **kwargs)
 
     allcols = ["None"] + list(data.keys())
-    return ipw.interactive(
+    return ipw.interact_manual(
                 sns_countplot,
                 x=allcols,
                 y=allcols,
                 hue=allcols,
                 color=ut.colors_dropdow(),
                 saturation=ut.saturation_slider(default=0.75),
-                __manual=True,
             )
 
 ################
@@ -467,9 +453,8 @@ def heatmap(data, annot_kws=None, cbar_kws=None, **kwargs):
                            cbar_kws=cbar_kws, cbar_ax=None, square=False, ax=ax,
                            xticklabels=True, yticklabels=True, mask=None, **kwargs)
 
-    return ipw.interactive(
+    return ipw.interact_manual(
                 sns_heatmap,
-                __manual=True,
             )
 
 
@@ -482,7 +467,6 @@ def clustermap(data, pivot_kws=None, cbar_kws=None, **kwargs):
                               row_cluster=True, col_cluster=True, row_linkage=None, col_linkage=None,
                               row_colors=None, col_colors=None, mask=None, **kwargs)
 
-    return ipw.interactive(
+    return ipw.interact_manual(
                 sns_clustermap,
-                __manual=True,
             )

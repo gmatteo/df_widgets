@@ -19,24 +19,24 @@ def add_docstrings(*tuples):
     """
     from functools import wraps
     def wrapper(func):
-	@wraps(func)
+        @wraps(func)
         def wrapped_func(*args, **kwargs):
             return func(*args, **kwargs)
 
         # Add docstrings for the functions that will be called by func.
-	lines = []
-	app = lines.append
-	for t in tuples:
-	    fname = t[0].__name__
-	    # List of strings or string.
-	    if isinstance(t[1], (list, tuple)):
-		fargs = ",".join("`%s`" % a for a in t[1])
-	    else:
-		fargs = "`%s`" % t[1]
-	    app("\n%s are passed to function :func:`%s` in module :mod:`%s`" % (fargs, fname, t[0].__module__))
-	    app("Docstring of `%s`:" % fname)
-	    app(t[0].__doc__)
-	s = "\n".join(lines)
+        lines = []
+        app = lines.append
+        for t in tuples:
+            fname = t[0].__name__
+            # List of strings or string.
+            if isinstance(t[1], (list, tuple)):
+                fargs = ",".join("`%s`" % a for a in t[1])
+            else:
+                fargs = "`%s`" % t[1]
+            app("\n%s are passed to function :func:`%s` in module :mod:`%s`" % (fargs, fname, t[0].__module__))
+            app("Docstring of `%s`:" % fname)
+            app(t[0].__doc__)
+        s = "\n".join(lines)
 
         if wrapped_func.__doc__ is not None:
             # Add s at the end of the docstring.
